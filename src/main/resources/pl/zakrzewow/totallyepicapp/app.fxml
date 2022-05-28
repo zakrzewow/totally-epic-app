@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pl.zakrzewow.totallyepicapp.AppController">
+
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <HBox alignment="CENTER" maxWidth="700">
+        <ImageView fitWidth="60" fitHeight="60">
+            <Image url="@icon.png"/>
+        </ImageView>
+        <Label text="Aplikacja szuka plików o danym rozszerzeniu w wybranym katalogu i wszytkich jego podkatalogach, a następnie zamienia w tych plikach pierwszy ciąg bajtów na drugi."
+               wrapText="true" style="-fx-font-size: 0.8em;" maxWidth="575">
+            <padding>
+                <Insets left="10.0"/>
+            </padding>
+        </Label>
+    </HBox>
+
+    <Separator maxWidth="660"/>
+
+    <GridPane alignment="TOP_CENTER" hgap="10" vgap="3" prefWidth="800">
+        <Label text="Katalog" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label text="Rozszerzenie" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label text="1. ciąg bajtów" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <Label text="2. ciąg bajtów" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+
+        <HBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <TextField fx:id="directoryTextField" promptText="C:\Users\User\Desktop"/>
+            <Button onAction="#handleShowDirectoryChooseDialog" text="...">
+                <tooltip>
+                    <Tooltip text="Wybierz katalog"/>
+                </tooltip>
+            </Button>
+        </HBox>
+        <Label fx:id="directoryInfoLabel" styleClass="info-label" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <TextField fx:id="extensionTextField" promptText=".txt" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label fx:id="extensionInfoLabel" styleClass="info-label" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <TextField fx:id="firstByteSequenceTextField" promptText="F1 61 70" GridPane.rowIndex="4"
+                   GridPane.columnIndex="1"/>
+        <Label fx:id="firstByteSequenceInfoLabel" styleClass="info-label" GridPane.rowIndex="5"
+               GridPane.columnIndex="1"/>
+
+        <TextField fx:id="secondByteSequenceTextField" promptText="62 A1" GridPane.rowIndex="6"
+                   GridPane.columnIndex="1"/>
+        <Label fx:id="secondByteSequenceInfoLabel" styleClass="info-label" GridPane.rowIndex="7"
+               GridPane.columnIndex="1"/>
+
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="3">
+            <graphic>
+                <ImageView fitWidth="32" fitHeight="32">
+                    <Image url="@icons8-help-48.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Ścieżka do katalogu na dysku"/>
+            </tooltip>
+        </Label>
+
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="3">
+            <graphic>
+                <ImageView fitWidth="32" fitHeight="32">
+                    <Image url="@icons8-help-48.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Rozszerzenie pliku, np. .txt, .mp3"/>
+            </tooltip>
+        </Label>
+
+        <Label GridPane.rowIndex="4" GridPane.columnIndex="3">
+            <graphic>
+                <ImageView fitWidth="32" fitHeight="32">
+                    <Image url="@icons8-help-48.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Szukany ciąg bajtów"/>
+            </tooltip>
+        </Label>
+
+        <Label GridPane.rowIndex="6" GridPane.columnIndex="3">
+            <graphic>
+                <ImageView fitWidth="32" fitHeight="32">
+                    <Image url="@icons8-help-48.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Ciąg bajtów do zamiany"/>
+            </tooltip>
+        </Label>
+
+    </GridPane>
+
+    <Button text="Zamień!" onAction="#handleReplaceButton"/>
+
+    <ScrollPane maxWidth="660" minHeight="150" maxHeight="250">
+        <VBox fx:id="logsBox">
+
+        </VBox>
+    </ScrollPane>
+</VBox>
