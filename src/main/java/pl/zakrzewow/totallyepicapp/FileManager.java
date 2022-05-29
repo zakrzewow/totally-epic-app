@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
-    public static final int COUNT_LIMIT = 100;
+    private static final int DIRECTORY_VISITED_LIMIT = 100;
+    private static final int FILES_CHECKED_LIMIT = 1000;
 
     private static Path directoryPath;
     private static String extension;
@@ -45,46 +46,45 @@ public class FileManager {
         }
     }
 
+    public static class Count {
+        public int directoryCount = 0;
+        public int fileWithExtCount = 0;
+        public int fileCount = 0;
+        public boolean isLimited = false;
+    }
+
     private static class CountingFileVisitor extends SkippingFileVisitor {
-        private int counter = 0;
+        private final Count count = new Count();
 
-        protected void incrementCounter() {
-            counter++;
-        }
-
-        public int getCounter() {
-            return Math.min(counter, COUNT_LIMIT);
+        public Count getCount() {
+            return count;
         }
 
         @Override
         public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-            if (counter > COUNT_LIMIT) {
+            count.directoryCount++;
+            if (count.directoryCount >= DIRECTORY_VISITED_LIMIT) {
+                count.isLimited = true;
                 return FileVisitResult.TERMINATE;
             }
             return super.preVisitDirectory(dir, attrs);
         }
-    }
 
-    private static class directoryCountingFileVisitor extends CountingFileVisitor {
-        @Override
-        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-            incrementCounter();
-            return super.preVisitDirectory(dir, attrs);
-        }
-    }
-
-    private static class fileWithExtCountingFileVisitor extends CountingFileVisitor {
-        @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
             if (isMatchingFileName(file)) {
-                incrementCounter();
+                count.fileWithExtCount++;
+            }
+            count.fileCount++;
+            if (count.fileCount >= FILES_CHECKED_LIMIT) {
+                count.isLimited = true;
+                return FileVisitResult.TERMINATE;
             }
             return super.visitFile(file, attrs);
         }
     }
 
     private static class CollectingFileVisitor extends SkippingFileVisitor {
-        private List<Path> filePaths = new ArrayList<>();
+        private final List<Path> filePaths = new ArrayList<>();
 
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
@@ -108,24 +108,17 @@ public class FileManager {
         return (long) Files.getAttribute(path, "size") > 100000000;
     }
 
-    private static int count(CountingFileVisitor countingFileVisitor) {
+    public static Count count() {
         if (directoryExists()) {
             try {
+                CountingFileVisitor countingFileVisitor = new CountingFileVisitor();
                 Files.walkFileTree(directoryPath, countingFileVisitor);
-                return countingFileVisitor.getCounter();
+                return countingFileVisitor.getCount();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return -1;
-    }
-
-    public static int countDirectories() {
-        return count(new directoryCountingFileVisitor());
-    }
-
-    public static int countFilesWithExt() {
-        return isSetExtension() ? count(new fileWithExtCountingFileVisitor()) : -1;
+        return new Count();
     }
 
     public static List<Path> getAllMatchingFiles() {

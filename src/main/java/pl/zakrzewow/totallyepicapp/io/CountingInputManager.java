@@ -3,16 +3,13 @@ package pl.zakrzewow.totallyepicapp.io;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
-import java.util.function.IntSupplier;
+import pl.zakrzewow.totallyepicapp.FileManager;
 
 public abstract class CountingInputManager extends InputManager {
     private Thread thread;
-    private final IntSupplier countingMethod;
 
-    public CountingInputManager(TextField textField, Label label, IntSupplier countingMethod) {
+    public CountingInputManager(TextField textField, Label label) {
         super(textField, label);
-        this.countingMethod = countingMethod;
     }
 
     protected void count() {
@@ -20,11 +17,11 @@ public abstract class CountingInputManager extends InputManager {
             thread.interrupt();
         }
         thread = new Thread(() -> {
-            int count = countingMethod.getAsInt();
+            FileManager.Count count = FileManager.count();
             Platform.runLater(() -> setCount(count));
         });
         thread.start();
     }
 
-    protected abstract void setCount(int count);
+    protected abstract void setCount(FileManager.Count count);
 }

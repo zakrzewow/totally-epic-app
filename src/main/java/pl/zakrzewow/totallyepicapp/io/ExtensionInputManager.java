@@ -8,7 +8,7 @@ import pl.zakrzewow.totallyepicapp.FileManager;
 
 public class ExtensionInputManager extends CountingInputManager {
     public ExtensionInputManager(TextField textField, Label label) {
-        super(textField, label, FileManager::countFilesWithExt);
+        super(textField, label);
     }
 
     @Override
@@ -27,17 +27,17 @@ public class ExtensionInputManager extends CountingInputManager {
     }
 
     @Override
-    protected void setCount(int count) {
-        if (count > 0) {
-            setLabelText("Znaleziono " + getNoun(count), InfoTextType.POSITIVE);
+    protected void setCount(FileManager.Count count) {
+        if (count.fileWithExtCount > 0) {
+            setLabelText("Znaleziono " + getNoun(count.fileWithExtCount, count.isLimited), InfoTextType.POSITIVE);
         } else {
             setLabelText("Brak plików o podanym rozszerzeniu!", InfoTextType.NEGATIVE);
         }
     }
 
-    private String getNoun(int count) {
-        String form = Noun.getForm(count, "pliki", "pliki", "plików");
-        if (count > FileManager.COUNT_LIMIT) return "co najmniej " + form;
+    private String getNoun(int count, boolean isLimited) {
+        String form = Noun.getForm(count, "plik!", "pliki!", "plików!");
+        if (isLimited) return "co najmniej " + form;
         else return form;
     }
 }

@@ -51,7 +51,11 @@ public class ByteSequenceInputManager extends InputManager {
 
     private static byte[] hexStringToByteArray(String s) {
         s = s.replaceAll(" ", "");
+        if (s.length() % 2 == 1) {
+            s = s + "0";
+        }
         int len = s.length();
+
         byte[] bytes = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
             bytes[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)

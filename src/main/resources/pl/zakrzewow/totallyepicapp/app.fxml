@@ -61,7 +61,7 @@
                 </ImageView>
             </graphic>
             <tooltip>
-                <Tooltip text="Ścieżka do katalogu na dysku"/>
+                <Tooltip text="Ścieżka do katalogu na dysku - program przeszuka maks. 100 folderów"/>
             </tooltip>
         </Label>
 
@@ -72,7 +72,7 @@
                 </ImageView>
             </graphic>
             <tooltip>
-                <Tooltip text="Rozszerzenie pliku, np. .txt, .mp3"/>
+                <Tooltip text="Rozszerzenie pliku, np. .txt, .mp3 - program sprawdzi maks. 1000 plików"/>
             </tooltip>
         </Label>
 
@@ -83,7 +83,7 @@
                 </ImageView>
             </graphic>
             <tooltip>
-                <Tooltip text="Szukany ciąg bajtów"/>
+                <Tooltip text="Szukany ciąg bajtów w postaci heksadecymalnej"/>
             </tooltip>
         </Label>
 
@@ -94,7 +94,7 @@
                 </ImageView>
             </graphic>
             <tooltip>
-                <Tooltip text="Ciąg bajtów do zamiany"/>
+                <Tooltip text="Ciąg bajtów w postaci heksadecymalnej do zamiany"/>
             </tooltip>
         </Label>
 
