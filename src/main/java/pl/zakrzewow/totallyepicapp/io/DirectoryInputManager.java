@@ -31,16 +31,15 @@ public class DirectoryInputManager extends CountingInputManager {
         if (count == 1) {
             setLabelText("Znaleziono katalog!", InfoTextType.POSITIVE);
         } else if (count > 1) {
-            setLabelText("Znaleziono katalog oraz " + getNoun(count - 1), InfoTextType.POSITIVE);
+            setLabelText("Znaleziono katalog oraz " + getNounForm(count - 1), InfoTextType.POSITIVE);
         } else {
             setLabelText("Katalog nie istnieje!", InfoTextType.NEGATIVE);
         }
     }
 
-    private String getNoun(int count) {
-        if (count == 1) return "1 podkatalog!";
-        else if (count >= 2 && count <= 4) return count + " podkatalogi!";
-        else if (count == FileManager.COUNT_LIMIT - 1) return "co najmniej " + count + " podkatalogów!";
-        else return count + " podkatalogów!";
+    private String getNounForm(int count) {
+        String form = Noun.getForm(count, "podkatalog", "podkatalogi", "podkatalogów");
+        if (count > FileManager.COUNT_LIMIT) return "co najmniej " + form;
+        else return form;
     }
 }

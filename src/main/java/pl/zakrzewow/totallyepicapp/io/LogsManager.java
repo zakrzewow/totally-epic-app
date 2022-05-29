@@ -27,14 +27,14 @@ public class LogsManager {
 
     public static void addReplacementLog(Path path, int count) {
         path = FileManager.relativize(path);
-        Label label = new Label("• " + getReplacementNoun(count) + " w pliku " + path);
+        Label label = new Label("• " + getReplacementNoun(count) + " w pliku \"" + path + '"');
         label.getStyleClass().add("log-label");
         logsBox.getChildren().add(label);
     }
 
     public static void addTooLargeFileLog(Path path) {
         path = FileManager.relativize(path);
-        Label label = new Label("• Plik " + path + " pominięty - rozmiar większy niż 100MB.");
+        Label label = new Label("• Plik \"" + path + "\" pominięty - rozmiar większy niż 100MB.");
         label.getStyleClass().add("log-label");
         logsBox.getChildren().add(label);
     }
@@ -45,8 +45,6 @@ public class LogsManager {
     }
 
     private static String getReplacementNoun(int count) {
-        if (count == 1) return "1 zamiana";
-        else if (count >= 2 && count <= 4) return count + " zamiany";
-        else return count + " zamian";
+        return Noun.getForm(count, "zamiana", "zamiany", "zamian");
     }
 }

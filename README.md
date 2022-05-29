@@ -13,3 +13,6 @@ Find all files with specified extension in chosen directory and all its subdirec
 ![](screenshots/screenshot2.png)
 
 ![](screenshots/screenshot3.png)
+
+## Running
+There is executable [jar file](out/artifacts/totally_epic_app_jar/totally-epic-app.jar). It *should* work with Java 16+.

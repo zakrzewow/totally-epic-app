@@ -36,9 +36,8 @@ public class ExtensionInputManager extends CountingInputManager {
     }
 
     private String getNoun(int count) {
-        if (count == 1) return "1 plik!";
-        else if (count >= 2 && count <= 4) return count + " pliki!";
-        else if (count == FileManager.COUNT_LIMIT) return "co najmniej " + count + " plików!";
-        else return count + " plików!";
+        String form = Noun.getForm(count, "pliki", "pliki", "plików");
+        if (count > FileManager.COUNT_LIMIT) return "co najmniej " + form;
+        else return form;
     }
 }
